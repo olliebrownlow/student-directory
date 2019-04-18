@@ -22,30 +22,6 @@ def save_students
   file.close
 end
 
-def try_load_students
-  filename = ARGV.first
-  return if filename.nil?
-  if File.exists?(filename)
-    load_students(filename)
-    puts "Loaded #{@students.count} students from #{filename}"
-  else 
-    puts "Sorry, #{filename} doesn't exist"
-    exit
-  end
-end
-
-def load_students(filename = "students.csv")
-  # open the file for reading
-  file = File.open(filename, "r")
-  # iterate over each line in the file
-  file.readlines.each do |line|
-    # parallel assignment
-    name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
-  end
-  file.close
-end
-
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -76,6 +52,30 @@ def process(selection)
       exit # this will cause the program to terminate
     else
       puts "I don't know what you meant, try again"
+  end
+end
+
+def load_students(filename = "students.csv")
+  # open the file for reading
+  file = File.open(filename, "r")
+  # iterate over each line in the file
+  file.readlines.each do |line|
+    # parallel assignment
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} students from #{filename}"
+  else 
+    puts "Sorry, #{filename} doesn't exist"
+    exit
   end
 end
 
